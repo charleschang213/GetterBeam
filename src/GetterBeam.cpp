@@ -6,10 +6,8 @@
  *****************************************************************************/
 #include "../include/GetterBeam.h"
 
-namespace GetterBeam
-{
-std::string GBCPU::HelloWorldText()
-{
-	return "Hello World";
-}
-}	 // namespace GetterBeam
+namespace GetterBeam {
+    std::string GBCPU::HelloWorldText() {
+        return "Hello World";
+    }
+}// namespace GetterBeam

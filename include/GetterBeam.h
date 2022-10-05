@@ -10,13 +10,11 @@
 
 #include <string>
 
-namespace GetterBeam
-{
-class GBCPU
-{
-public:
-	static std::string HelloWorldText();
-};
-}	 // namespace GetterBeam
+namespace GetterBeam {
+    class GBCPU {
+    public:
+        static std::string HelloWorldText();
+    };
+}// namespace GetterBeam
 
-#endif	  // GETTERBEAM_GETTERBEAM_H
+#endif// GETTERBEAM_GETTERBEAM_H
