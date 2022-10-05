@@ -9,5 +9,6 @@
 #define GETTERBEAM_GBTYPEDEF_H
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 
 #endif//GETTERBEAM_GBTYPEDEF_H

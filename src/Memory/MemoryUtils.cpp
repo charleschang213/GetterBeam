@@ -16,37 +16,22 @@ namespace GetterBeam {
             memset(MemoryModel, 0, GB_MEMORY_TOTAL_SIZE);
         }
 
-        void ClearMemory(size_t index, size_t len) {
-            if (index < 0 || index + len >= GB_MEMORY_TOTAL_SIZE) {
-                return;
-            }
+        void ClearMemory(u16 index, u16 len) {
             memset(MemoryModel + index, 0, len);
         }
 
-        void WriteMemory(size_t dst, size_t src, size_t len) {
-            if (src < 0 || src + len >= GB_MEMORY_TOTAL_SIZE) {
-                return;
-            }
-            if (dst < 0 || dst + len >= GB_MEMORY_TOTAL_SIZE) {
-                return;
-            }
+        void WriteMemory(u16 dst, u16 src, u16 len) {
             if (src == dst) {
                 return;
             }
             memmove(MemoryModel + dst, MemoryModel + src, len);
         }
 
-        u8 *LoadMemory(size_t index) {
-            if (index < 0 || index >= GB_MEMORY_TOTAL_SIZE) {
-                return nullptr;
-            }
-            return MemoryModel + index;
+        u8 LoadMemory(u16 index) {
+            return MemoryModel[index];
         }
 
-        void SaveMemory(size_t index, u8 value) {
-            if (index < 0 || index >= GB_MEMORY_TOTAL_SIZE) {
-                return;
-            }
+        void SaveMemory(u16 index, u8 value) {
             MemoryModel[index] = value;
         }
     }// namespace MemoryUtils
