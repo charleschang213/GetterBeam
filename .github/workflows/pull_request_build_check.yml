@@ -1,0 +1,44 @@
+name: CMake
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Debug
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/cmake-build-debug -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/cmake-build-debug --config ${{env.BUILD_TYPE}}
+
+    - name: Unit Test
+      working-directory: ${{github.workspace}}/cmake-build-debug
+      run: ./GetterBeam_Test
+      
+  Style_Check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: git-clang-format lint
+      # You may pin to the exact commit or the version.
+      # uses: yshui/git-clang-format-lint@b65eb5b3f1ee18ca0b449a4b48882b48bb9db307
+      uses: yshui/git-clang-format-lint@v1.3
+
+    
+    
+      
