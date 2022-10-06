@@ -21,7 +21,7 @@ jobs:
     - name: Build Debug
       run: |
         cd ${{github.workspace}}/Scripts
-        ./build.sh rebuild
+        ./build.sh -rebuild
         
     - name: Upload Debug Artifact
       uses: actions/upload-artifact@v3.1.0
@@ -35,7 +35,7 @@ jobs:
     - name: Build Release
       run: |
         cd ${{github.workspace}}/Scripts
-        ./build.sh rebuild release
+        ./build.sh -rebuild -release
         
     - name: Upload Release Artifact
       uses: actions/upload-artifact@v3.1.0
@@ -55,7 +55,7 @@ jobs:
     - name: Build && Run Test
       run: |
         cd ${{github.workspace}}/Scripts
-        ./build_test.sh rebuild run html
+        ./build_test.sh -rebuild -run -html
         
     - name: Upload Test Executable
       uses: actions/upload-artifact@v3.1.0
