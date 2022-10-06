@@ -36,7 +36,6 @@ TEST(MemoryUtilsTest, WriteMemory) {
 TEST(MemoryUtilsTest, ClearMemory) {
     GetterBeam::MemoryUtils::ClearAllMemory();
     u16 index = 0x4;
-    u16 len = 0x4;
     u8 value = 0x11;
     GetterBeam::MemoryUtils::SaveMemory(index, value);
     EXPECT_EQ(value, GetterBeam::MemoryUtils::MemoryModel[index]);
@@ -47,7 +46,6 @@ TEST(MemoryUtilsTest, ClearMemory) {
 TEST(MemoryUtilsTest, LoadMemory) {
     GetterBeam::MemoryUtils::ClearAllMemory();
     u16 index = 0x4;
-    u16 len = 0x4;
     u8 value = 0x11;
     GetterBeam::MemoryUtils::SaveMemory(index, value);
     EXPECT_EQ(value, GetterBeam::MemoryUtils::LoadMemory(index));
