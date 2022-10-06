@@ -74,9 +74,8 @@ jobs:
     
     - name: Build && Run Test
       run: |
-        git show HEAD~2 | head
-        git show HEAD~1 | head
-        git log | head
+        cat ${{ github.head_ref }}
+        cat ${{ github.base_ref }}
         cd ${{github.workspace}}/Scripts
         ./build_test.sh -rebuild -run -html
         
@@ -91,16 +90,6 @@ jobs:
         minimum-coverage: 70# optional, default is 0
         # Set the GitHub token to have the action comment the coverage summary in the pull request. This token is provided by Actions, you do not need to create your own token. Optional. Default: ``
         github-token: ${{ secrets.GITHUB_TOKEN }} # optional
-        
-    - name: Comment Incremental Coverage
-      # You may pin to the exact commit or the version.
-      # uses: thollander/actions-comment-pull-request@686ab1cab89e0f715a44a0d04b9fdfdd4f33d751
-      uses: thollander/actions-comment-pull-request@v1.4.1
-      with:
-        # Message that should be printed in the pull request
-        message: sed -n '30p' < ${{github.workspace}}/cmake-build-debug/Report/ut_incremental_coverage_report.html | cut -c 45- | rev | cut -c 8- | rev
-        # Github token of the repository (automatically created by Github)
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Upload Test Executable
       uses: actions/upload-artifact@v3.1.0
