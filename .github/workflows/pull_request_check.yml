@@ -74,8 +74,8 @@ jobs:
     
     - name: Build && Run Test
       run: |
-        cat ${{ github.head_ref }}
-        cat ${{ github.base_ref }}
+        echo ${{ github.head_ref }}
+        echo ${{ github.base_ref }}
         cd ${{github.workspace}}/Scripts
         ./build_test.sh -rebuild -run -html
         
