@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 project(GetterBeam)
 
 set(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -pedantic -pedantic-errors -O2" )
 
 include(FetchContent)
 FetchContent_Declare(
@@ -20,14 +21,25 @@ add_library(GetterBeam SHARED
         src/Memory/MemoryUtils.cpp src/Memory/MemoryUtils.h
         src/Global/GBTypedef.h
         )
-add_executable(GetterBeam_Test
-        src/GetterBeam.cpp include/GetterBeam.h
-        src/Memory/MemoryUtils.cpp src/Memory/MemoryUtils.h src/Memory/MemoryUtils_Test.cpp
-        src/Global/GBTypedef.h)
-target_link_libraries(
-        GetterBeam_Test
-        GTest::gtest_main
-)
 
-
-
+string(TOLOWER ${CMAKE_BUILD_TYPE} _type)
+if(${_type} STREQUAL "debug")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g" )
+        add_executable(GetterBeam_Test
+                src/GetterBeam.cpp include/GetterBeam.h
+                src/Memory/MemoryUtils.cpp src/Memory/MemoryUtils.h src/Memory/MemoryUtils_Test.cpp
+                src/Global/GBTypedef.h)
+        target_link_libraries(
+                GetterBeam_Test
+                GTest::gtest_main
+        )
+        target_compile_options(GetterBeam_Test PUBLIC -fno-access-control)
+        if (NOT CMAKE_SYSTEM_NAME MATCHES "Windows")
+                target_link_libraries(
+                        GetterBeam_Test
+                        gcov
+                )
+                target_compile_options(GetterBeam_Test PUBLIC -fprofile-arcs -ftest-coverage)
+                target_link_options(GetterBeam_Test PUBLIC --coverage)
+        endif ()
+endif()
