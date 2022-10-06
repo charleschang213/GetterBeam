@@ -30,7 +30,12 @@ jobs:
       run: |
         cd ${{github.workspace}}/Scripts
         ./build.sh -rebuild
-        
+
+    - name: Build Release
+      run: |
+        cd ${{github.workspace}}/Scripts
+        ./build.sh -rebuild -release
+    
     - name: Upload Debug Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
@@ -39,11 +44,6 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: ${{github.workspace}}/cmake-build-debug/libGetterBeam.so
         # The desired behavior if no files are found using the provided path.
-
-    - name: Build Release
-      run: |
-        cd ${{github.workspace}}/Scripts
-        ./build.sh -rebuild -release
         
     - name: Upload Release Artifact
       uses: actions/upload-artifact@v3.1.0
@@ -74,8 +74,33 @@ jobs:
     
     - name: Build && Run Test
       run: |
+        git show HEAD~2 | head
+        git show HEAD~1 | head
+        git log | head
         cd ${{github.workspace}}/Scripts
         ./build_test.sh -rebuild -run -html
+        
+    - name: Universe Coverage Report
+      # You may pin to the exact commit or the version.
+      # uses: zgosalvez/github-actions-report-lcov@8b72ce00008730f66e6d211e54359243012b9606
+      uses: zgosalvez/github-actions-report-lcov@v1.5.0
+      with:
+        # The coverage files to scan. For example, `coverage/lcov.*.info`
+        coverage-files: ${{github.workspace}}/cmake-build-debug/Tests/GetterBeamTestCoverage
+        # The minimum coverage to pass the check. Optional. Default: `0` (always passes)
+        minimum-coverage: 70# optional, default is 0
+        # Set the GitHub token to have the action comment the coverage summary in the pull request. This token is provided by Actions, you do not need to create your own token. Optional. Default: ``
+        github-token: ${{ secrets.GITHUB_TOKEN }} # optional
+        
+    - name: Comment Incremental Coverage
+      # You may pin to the exact commit or the version.
+      # uses: thollander/actions-comment-pull-request@686ab1cab89e0f715a44a0d04b9fdfdd4f33d751
+      uses: thollander/actions-comment-pull-request@v1.4.1
+      with:
+        # Message that should be printed in the pull request
+        message: sed -n '30p' < ${{github.workspace}}/cmake-build-debug/Report/ut_incremental_coverage_report.html | cut -c 45- | rev | cut -c 8- | rev
+        # Github token of the repository (automatically created by Github)
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Upload Test Executable
       uses: actions/upload-artifact@v3.1.0
@@ -94,18 +119,6 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: ${{github.workspace}}/cmake-build-debug/Report
         # The desired behavior if no files are found using the provided path.
-        
-    - name: Universe Coverage Report
-      # You may pin to the exact commit or the version.
-      # uses: zgosalvez/github-actions-report-lcov@8b72ce00008730f66e6d211e54359243012b9606
-      uses: zgosalvez/github-actions-report-lcov@v1.5.0
-      with:
-        # The coverage files to scan. For example, `coverage/lcov.*.info`
-        coverage-files: ${{github.workspace}}/cmake-build-debug/Tests/GetterBeamTestCoverage
-        # The minimum coverage to pass the check. Optional. Default: `0` (always passes)
-        minimum-coverage: 70# optional, default is 0
-        # Set the GitHub token to have the action comment the coverage summary in the pull request. This token is provided by Actions, you do not need to create your own token. Optional. Default: ``
-        github-token: ${{ secrets.GITHUB_TOKEN }} # optional
       
   Style_Check:
     runs-on: ubuntu-latest
