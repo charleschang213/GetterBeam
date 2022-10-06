@@ -105,4 +105,4 @@ if [ -z `command -v python` ]; then
         echo "Need python to generate incremental report"
 fi
 
-./ut_incremental_check.py $SINCE_COMMIT".."$HEAD_COMMIT '["${CMakeSourceDir}/src"]' "${CoverageReportDir}" 0.01
+./ut_incremental_check.py $SINCE_COMMIT".."$HEAD_COMMIT '["src"]' "${CoverageReportDir}" 0.01

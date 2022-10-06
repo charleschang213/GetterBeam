@@ -81,9 +81,10 @@ class UTCover(object) :
         # self.since, self.until
         changes = {}
         for f in src_files:
-            satus, output = subprocess.getstatusoutput("git log --oneline %s..%s %s | awk '{print $1}'" %(self.since, self.until, f))
+            file = "../" + f
+            satus, output = subprocess.getstatusoutput("git log --oneline %s..%s %s | awk '{print $1}'" %(self.since, self.until, file))
             commits = output.split('\n')
-            cmd = "git blame %s | grep -E '(%s)' | awk  -F' *|)' '{print $6}'" %(f, '|'.join(commits))
+            cmd = "git blame --line-porcelain %s | grep -E '(%s)' | awk  -F' *|)' '{print $3}'" %(file, '|'.join(commits))
             satus, lines = subprocess.getstatusoutput(cmd)
             changes[f] = [ int(i) for i in lines.split('\n') if i.isdigit() ]
 
