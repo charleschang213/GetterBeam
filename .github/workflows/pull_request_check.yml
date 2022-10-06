@@ -52,6 +52,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Setup LCOV
+      # You may pin to the exact commit or the version.
+      # uses: hrishikesh-kadam/setup-lcov@f5da1b26b0dcf5d893077a3c4f29cf78079c841d
+      uses: hrishikesh-kadam/setup-lcov@v1.0.0
+    
     - name: Build && Run Test
       run: |
         cd ${{github.workspace}}/Scripts
