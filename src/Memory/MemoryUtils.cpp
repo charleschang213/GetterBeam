@@ -14,16 +14,20 @@ namespace GetterBeam {
 
         void ClearAllMemory() {
             memset(MemoryModel, 0, GB_MEMORY_TOTAL_SIZE);
+            memset(MemoryModel, 0, GB_MEMORY_TOTAL_SIZE);
         }
 
         void ClearMemory(u16 index, u16 len) {
+            memset(MemoryModel + index, 0, len);
             memset(MemoryModel + index, 0, len);
         }
 
         void WriteMemory(u16 dst, u16 src, u16 len) {
             if (src == dst) {
+                memmove(MemoryModel + dst, MemoryModel + src, len);
                 return;
             }
+            memmove(MemoryModel + dst, MemoryModel + src, len);
             memmove(MemoryModel + dst, MemoryModel + src, len);
         }
 
